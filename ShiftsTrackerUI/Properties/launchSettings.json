@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ShiftsTrackerUI": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\Projects\\ShiftsTrackerUI"
+    }
+  }
+}
