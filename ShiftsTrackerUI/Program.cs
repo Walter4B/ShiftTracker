@@ -3,15 +3,16 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using ShiftsTrackerUI.Models;
 
-namespace ShiftTrackerUI
+namespace ShiftsTrackerUI
 { 
     class Program
     {
-
-        public void Main()
-        { 
-        
+        static void Main()
+        {
+            UserCommands userCommands = new UserCommands();
+            userCommands.UserInterface();
         }
     }
 }
