@@ -9,15 +9,13 @@ namespace ShiftsTrackerUI
 {
     internal class CRUDEngine
     {
-       
 
         static HttpClient client = new HttpClient();
 
         static void ShowALLShift(List<Shift> shift)
         {
-            List<string> titles = new List<string>();
             TableDisplayEngine tableDisplayEngine = new TableDisplayEngine();
-            tableDisplayEngine.DisplayTable(shift, titles);
+            tableDisplayEngine.DisplayTable(shift);
         }
 
         static void ShowShift(Shift shift)
@@ -67,6 +65,7 @@ namespace ShiftsTrackerUI
         static async Task RunAsync(int option)
         {
             DataUserToEngine dataUserToEngine = new DataUserToEngine();
+            TableDisplayEngine tableDisplayEngine = new TableDisplayEngine();
 
             // Update port # in the following line.
             client.BaseAddress = new Uri("http://localhost:7419/");
@@ -86,14 +85,15 @@ namespace ShiftsTrackerUI
                         CreateShiftAsync(shift);
                         break;
                     case 2: //Read shifts
-
+                        int shiftID = dataUserToEngine.GetShiftId();
+                        GetShiftAsync($"api/Shifts/{shiftID}");
                         break;
                     case 3: //Update shift
                         shift = dataUserToEngine.PopulateShiftData();
                         UpdateShiftAsync(shift);
                         break;
                     case 4: //Delete shift
-                        int deleteID = dataUserToEngine.GetDelitionId();
+                        int deleteID = dataUserToEngine.GetShiftId();
                         DeleteShiftAsync(deleteID.ToString());
                         break;
                 }
@@ -108,28 +108,6 @@ namespace ShiftsTrackerUI
         {
             
             RunAsync(operationOption).GetAwaiter().GetResult();
-        }
-
-        internal async Task CreateShift()
-        {
-            try
-            {
-                // Create a new shift
-                Shift shift = new Shift
-                {
-                    Start = DateTime.Now,
-                    End = DateTime.Now,
-                    Pay = 1.5M,
-                    Minutes = 1,
-                    Location = "London"
-                };
-
-                var url = await CreateShiftAsync(shift);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
     }
 }

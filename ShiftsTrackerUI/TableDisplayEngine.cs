@@ -10,11 +10,11 @@ namespace ShiftsTrackerUI
 {
     internal class TableDisplayEngine
     {
-        internal void DisplayTable(List<Shift> shifts, List<string> titles)
+        internal void DisplayTable(List<Shift> shifts)
         {
             ConsoleTableBuilder
                 .From(shifts)
-                .WithColumn(titles)
+                .WithColumn("")
                 .WithFormat(ConsoleTableBuilderFormat.Alternative)
                 .ExportAndWriteLine();
         }

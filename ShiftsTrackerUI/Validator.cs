@@ -34,7 +34,7 @@ namespace ShiftsTrackerUI
 
         internal bool CheckIfEmptyOrNull(string input)
         {
-            if (CheckIfEmptyOrNull(input))
+            if (string.IsNullOrEmpty(input))
             {
                 return true;
             }

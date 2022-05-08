@@ -25,7 +25,7 @@ namespace ShiftsTrackerUI
             return shift;
         }
 
-        internal int GetDelitionId()
+        internal int GetShiftId()
         {
             int input = inputEngine.GetInputInt();
             return input;
