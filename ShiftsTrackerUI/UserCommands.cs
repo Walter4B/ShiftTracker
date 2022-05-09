@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace ShiftsTrackerUI
 {
-
     internal class UserCommands
     {
         internal void UserInterface()
@@ -15,7 +14,9 @@ namespace ShiftsTrackerUI
             OutputEngine outputEngine = new OutputEngine();
             CRUDEngine crudEngine = new CRUDEngine();
 
-            outputEngine.DisplayMessage("MainMenu");
+            //TODO: refactor this into something sensible
+
+            outputEngine.DisplayMessage("MainMenuTemp");
             int engineCommand = inputEngine.GetInputInt();
             while (engineCommand < 0 && engineCommand > 4)
             {
@@ -25,7 +26,7 @@ namespace ShiftsTrackerUI
                 }
                 else
                 {
-                    Console.WriteLine("between 0 and 4");
+                    outputEngine.DisplayMessage("InvalidInput");
                     engineCommand = inputEngine.GetInputInt();
                 }
             }

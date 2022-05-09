@@ -35,12 +35,14 @@ namespace ShiftsTrackerUI
 
         static async Task<Shift> GetShiftAsync(string path)
         {
+
             Shift shift = null;
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 shift = await response.Content.ReadAsAsync<Shift>();
             }
+            Console.WriteLine(shift);
             return shift;
         }
 
@@ -66,12 +68,13 @@ namespace ShiftsTrackerUI
         {
             DataUserToEngine dataUserToEngine = new DataUserToEngine();
             TableDisplayEngine tableDisplayEngine = new TableDisplayEngine();
+            OutputEngine outputEngine = new OutputEngine();
 
             // Update port # in the following line.
-            client.BaseAddress = new Uri("http://localhost:7419/");
+            client.BaseAddress = new Uri("https://localhost:7197/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                new MediaTypeWithQualityHeaderValue("appliacation/json"));
 
             Shift shift = new Shift();
             try
@@ -85,8 +88,9 @@ namespace ShiftsTrackerUI
                         CreateShiftAsync(shift);
                         break;
                     case 2: //Read shifts
+                        outputEngine.DisplayMessage("InputID");
                         int shiftID = dataUserToEngine.GetShiftId();
-                        GetShiftAsync($"api/Shifts/{shiftID}");
+                        GetShiftAsync($"api/Shifts");
                         break;
                     case 3: //Update shift
                         shift = dataUserToEngine.PopulateShiftData();
@@ -102,11 +106,10 @@ namespace ShiftsTrackerUI
             {
                 Console.WriteLine(e.Message);
             }
-}
+        }
 
         internal void RunEngine(int operationOption)
         {
-            
             RunAsync(operationOption).GetAwaiter().GetResult();
         }
     }

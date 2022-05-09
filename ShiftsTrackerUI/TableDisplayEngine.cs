@@ -14,7 +14,7 @@ namespace ShiftsTrackerUI
         {
             ConsoleTableBuilder
                 .From(shifts)
-                .WithColumn("")
+                .WithColumn("Id", "Start", "End", "Pay", "Minutes", "Location")
                 .WithFormat(ConsoleTableBuilderFormat.Alternative)
                 .ExportAndWriteLine();
         }

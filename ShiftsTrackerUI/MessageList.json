@@ -1,6 +1,10 @@
 {
-  "MainMenu": "",
+  "MainMenuTemp": "\n Type 0 to close the app. \n Type 1 to create a shift. \n Type 2 to show a shift by ID. \n Type 3 updare a shift. \n Type 4 to delete a shift. \n",
+  "MainMenu": "\n Type 0 to close the app. \n Type 1 to start a shift. \n Type 2 to show a shift by ID. \n Type 3 to show all shifts. \n Type 4 to end a shift. \n Type 5 to update a shift. \n Type 6 to delete a shift. \n",
 
+  "InvalidInput": "Invalid input, please try again.",
+
+  "InputID": "Please input ID of the shift."
 
 
 }
