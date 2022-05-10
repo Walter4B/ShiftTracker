@@ -43,5 +43,17 @@ namespace ShiftsTrackerUI
                 return false;
             }
         }
+
+        internal bool CheckIfDateTime(string input)
+        {
+            if (DateTime.TryParse(input, out _))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

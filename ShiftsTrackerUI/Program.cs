@@ -11,8 +11,8 @@ namespace ShiftsTrackerUI
     {
         static void Main()
         {
-            UserCommands userCommands = new UserCommands();
-            userCommands.UserInterface();
+            CRUDEngine engine = new CRUDEngine();
+            engine.Run();
         }
     }
 }
