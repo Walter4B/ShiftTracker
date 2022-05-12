@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/Shifts",
+      "launchUrl": "api/shifts",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

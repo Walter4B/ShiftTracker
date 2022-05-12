@@ -14,6 +14,8 @@ namespace ShiftTrackerAPI.Controllers
     [ApiController]
     public class ShiftsController : ControllerBase
     {
+        TimeManager timeManager = new TimeManager();
+
         private readonly ShiftContext _context;
 
         public ShiftsController(ShiftContext context)
@@ -25,7 +27,15 @@ namespace ShiftTrackerAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Shift>>> GetShifts()
         {
-            return await _context.Shifts.ToListAsync();
+            var shifts = await _context.Shifts.ToListAsync();
+            foreach (var shift in shifts)
+            {
+                if (shift.End != default)
+                {
+                    shift.Minutes = timeManager.CalculateTime(shift.Start.TimeOfDay, shift.End.TimeOfDay);
+                }
+            }
+            return shifts;
         }
 
         // GET: api/Shifts/5
@@ -33,7 +43,8 @@ namespace ShiftTrackerAPI.Controllers
         public async Task<ActionResult<Shift>> GetShift(int id)
         {
             var shift = await _context.Shifts.FindAsync(id);
-
+            if (shift.End != default)
+            shift.Minutes = timeManager.CalculateTime(shift.Start.TimeOfDay, shift.End.TimeOfDay);
             if (shift == null)
             {
                 return NotFound();
@@ -78,6 +89,10 @@ namespace ShiftTrackerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Shift>> PostShift(Shift shift)
         {
+            if (shift.End != default)
+            {
+                shift.Minutes = timeManager.CalculateTime(shift.Start.TimeOfDay, shift.End.TimeOfDay);
+            }
             _context.Shifts.Add(shift);
             await _context.SaveChangesAsync();
 
