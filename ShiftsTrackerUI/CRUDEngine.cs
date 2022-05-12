@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ShiftsTrackerUI.Models;
+using System.Threading.Tasks;
 
 namespace ShiftsTrackerUI
 {
@@ -13,16 +14,10 @@ namespace ShiftsTrackerUI
 
         static HttpClient client = new HttpClient();
 
-        static void ShowProduct(Shift shift)
-        {
-            Console.WriteLine($"Name: {shift.ShiftId.ToString()}\tPrice: " +
-                $"{shift.Pay}\tCategory: {shift.Location}");
-        }
-
         static async Task<Uri> CreateProductAsync(Shift shift)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
-                "api/shifts", shift);
+                "shifts", shift);
             response.EnsureSuccessStatusCode();
 
             // return URI of the created resource.
@@ -50,11 +45,11 @@ namespace ShiftsTrackerUI
             }
             return shifts;
         }
-
+        
         static async Task<Shift> UpdateProductAsync(Shift shift)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync(
-                $"api/shifts/{shift.ShiftId}", shift);
+                $"shifts/{shift.ShiftId}", shift);
             response.EnsureSuccessStatusCode();
 
             // Deserialize the updated shift from the response body.
@@ -65,7 +60,7 @@ namespace ShiftsTrackerUI
         static async Task<HttpStatusCode> DeleteProductAsync(string id)
         {
             HttpResponseMessage response = await client.DeleteAsync(
-                $"api/shifts/{id}");
+                $"shifts/{id}");
             return response.StatusCode;
         }
 
@@ -74,17 +69,13 @@ namespace ShiftsTrackerUI
             RunAsync().GetAwaiter().GetResult();
         }
 
-        static async Task RunAsync()
+        static async Task RunAsync() //Implemented using local functions
         {
             OutputEngine outputEngine = new OutputEngine();
             InputEngine inputEngine = new InputEngine();
 
-            // Update port # in the following line.
-            client.BaseAddress = new Uri("https://localhost:7197/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("api/Shifts"));
-            //Shift shift = new Shift();
+            client.BaseAddress = new Uri("https://localhost:7197/api/");
+           
             while (true)
             {
                 try
@@ -98,23 +89,23 @@ namespace ShiftsTrackerUI
                             Environment.Exit(0);
                             break;
                         case 1: //Start shift
-                            StartShift();
+                            await StartShift();
                             break;
                         case 2: //Show a shift by ID
-                            GetShiftByID();
+                            await GetShiftByID();
                             break;
                         case 3: //Show all shifts
-                            GetAllShifts();
+                            await GetAllShifts();
                             break;
                         case 4: //End a shift
-                            EndShift();
+                            await EndShift();
                             break;
                         case 5: //Update a shift
-                            FullUpdateShift();
+                            await FullUpdateShift();
                             break;
                         case 6: //Delete a shift
+                            await DeleteShift();
                             break;
-                            DeleteShift();
                         default:
                             outputEngine.DisplayMessage("InvalidInput");
                             break;
@@ -138,20 +129,24 @@ namespace ShiftsTrackerUI
             static async Task GetShiftByID()
             {
                 DataUserToEngine dataUserToEngine = new DataUserToEngine();
+                TableDisplayEngine tableDisplayEngine = new TableDisplayEngine();
 
                 Shift shift = new Shift();
 
                 int ShiftID = dataUserToEngine.IDshiftPopulate();
-                shift = await GetProductAsync($"https://localhost:7197/api/Shifts/{ShiftID}");
+                shift = await GetProductAsync($"Shifts/{ShiftID}");
+                tableDisplayEngine.DisplayTable(shift);
             }
 
             static async Task GetAllShifts()
             {
                 DataUserToEngine dataUserToEngine = new DataUserToEngine();
+                TableDisplayEngine tableDisplayEngine = new TableDisplayEngine();
 
                 List<Shift> shifts = new List<Shift>();
 
-                shifts = await GetMultipleProductAsync("https://localhost:7197/api/Shifts/");
+                shifts = await GetMultipleProductAsync("Shifts");
+                tableDisplayEngine.DisplayTable(shifts);
             }
 
             static async Task EndShift()
@@ -161,7 +156,7 @@ namespace ShiftsTrackerUI
                 Shift shift = new Shift();
 
                 int ShiftID = dataUserToEngine.IDshiftPopulate();
-                shift = await GetProductAsync($"https://localhost:7197/api/Shifts/{ShiftID}");
+                shift = await GetProductAsync($"Shifts/{ShiftID}");
                 shift = dataUserToEngine.EndShiftPopulate(shift);
                 await UpdateProductAsync(shift);
             }
@@ -173,7 +168,7 @@ namespace ShiftsTrackerUI
                 Shift shift = new Shift();
 
                 int ShiftID = dataUserToEngine.IDshiftPopulate();
-                shift = await GetProductAsync($"https://localhost:7197/api/Shifts/{ShiftID}");
+                shift = await GetProductAsync($"Shifts/{ShiftID}");
                 shift = dataUserToEngine.FullUpdatePopulate();
                 await UpdateProductAsync(shift);
             }

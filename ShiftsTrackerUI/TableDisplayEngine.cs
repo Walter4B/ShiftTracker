@@ -18,5 +18,17 @@ namespace ShiftsTrackerUI
                 .WithFormat(ConsoleTableBuilderFormat.Alternative)
                 .ExportAndWriteLine();
         }
+
+        internal void DisplayTable(Shift shift)
+        {
+            List<Shift> list = new List<Shift>();
+            list.Add(shift);
+
+            ConsoleTableBuilder
+                .From(list)
+                .WithColumn("Id", "Start", "End", "Pay", "Minutes", "Location")
+                .WithFormat(ConsoleTableBuilderFormat.Alternative)
+                .ExportAndWriteLine();
+        }
     }
 }
