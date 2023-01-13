@@ -17,7 +17,7 @@ On startup application creates a new in memory database, based on DbContext(Shif
 ## Features
 - Category Menu
   - On startup UI side of the application connects to API using HttpClient
-  - All crud commands in API can be called from the UI
+  - All CRUD commands in API can be called from the UI
   - ![MainMenu](Images/MainMenu.PNG)
 
 - Reporting
