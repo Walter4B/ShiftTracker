@@ -2,7 +2,7 @@
 
 Sixth application in a series for learning .net. 
 
-**This branch** contains API, other branch contains the UI, this was done to test out the orphan branch concept.
+**This branch** contains API, [other](https://github.com/Walter4B/ShiftTracker/tree/UI) branch contains the UI, this was done to test out the orphan branch concept.
 
 On startup application creates a new in memory database, based on DbContext(ShiftContext)
 
